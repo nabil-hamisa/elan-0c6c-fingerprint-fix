@@ -1,0 +1,4 @@
+builddir/
+*.o
+*.so
+*.so.*

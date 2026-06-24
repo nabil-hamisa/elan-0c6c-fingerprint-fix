@@ -43,7 +43,7 @@ harmless.
 ## Quick install
 
 ```bash
-git clone https://github.com/<your-user>/elan-0c6c-fingerprint-fix.git
+git clone https://github.com/nabil-hamisa/elan-0c6c-fingerprint-fix
 cd elan-0c6c-fingerprint-fix
 sudo bash install.sh
 ```

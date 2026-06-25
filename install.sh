@@ -15,7 +15,6 @@
 set -euo pipefail
 
 FORK_URL="https://gitlab.freedesktop.org/geodic/libfprint.git"
-WORKDIR="${WORKDIR:-$HOME/libfprint-elanmoc2-0c6c}"
 PATCH="$(cd "$(dirname "$0")" && pwd)/0001-elanmoc2-add-04f3-0c6c.patch"
 DEST=/usr/lib/x86_64-linux-gnu
 
@@ -25,6 +24,12 @@ DEST=/usr/lib/x86_64-linux-gnu
 # the repo is cloned/built as the invoking user, not root
 RUN_USER="${SUDO_USER:-$(logname 2>/dev/null || echo root)}"
 as_user() { sudo -u "$RUN_USER" "$@"; }
+
+# clone into the invoking user's home, NOT $HOME: under sudo $HOME may be /root,
+# which the non-root RUN_USER cannot write to (=> "Permission denied" on clone).
+RUN_HOME="$(getent passwd "$RUN_USER" | cut -d: -f6)"
+RUN_HOME="${RUN_HOME:-/root}"
+WORKDIR="${WORKDIR:-$RUN_HOME/libfprint-elanmoc2-0c6c}"
 
 echo "==> 1/7 Install build dependencies"
 apt-get install -y \
